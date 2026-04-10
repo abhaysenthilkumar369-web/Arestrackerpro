@@ -44,3 +44,26 @@ export const saveUserToFirebase = async (lat, lon) => {
         console.error("Error saving to Firebase:", error);
     }
 };
+
+
+// TLE Data Route (REAL DATA)
+app.get("/api/tracker/tle", async (req, res) => {
+    try {
+        const response = await axios.get(
+            "https://celestrak.org/NORAD/elements/stations.txt"
+        );
+
+        res.json({
+            success: true,
+            source: "Celestrak TLE",
+            data: response.data
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch TLE data",
+            error: error.message
+        });
+    }
+});
