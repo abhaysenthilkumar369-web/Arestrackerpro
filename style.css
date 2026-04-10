@@ -1,0 +1,244 @@
+:root {
+    --bg-color: #000000;
+    --text-main: #33ff33;
+    --text-dim: #005500;
+    --border-color: #11aa11;
+    --ui-bg: rgba(5, 10, 5, 0.90);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Matrix Background Canvas - Keep it subtle */
+#matrixCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Minimal text glow, if any */
+.glow-text {
+    text-shadow: 0 0 2px var(--text-main);
+}
+
+/* Main Layout */
+.dashboard-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Terminal Overlay - Clean and Minimal */
+.terminal-overlay {
+    flex: 1;
+    min-width: 320px;
+    max-width: 400px;
+    background: var(--ui-bg);
+    border: 1px solid var(--text-dim);
+    border-top: 4px solid var(--border-color);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.terminal-overlay h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--text-dim);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#status-feed {
+    margin-bottom: 25px;
+    height: 80px;
+    min-height: 80px;
+    overflow-y: hidden;
+    border-left: 2px solid var(--text-dim);
+    padding-left: 15px;
+    font-size: 0.85rem;
+    color: var(--border-color);
+}
+
+#status-feed p {
+    margin-bottom: 5px;
+}
+
+.telemetry-data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.data-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dotted var(--text-dim);
+    padding: 10px 0;
+    font-size: 1rem;
+}
+
+.data-block .label {
+    opacity: 0.7;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.prediction-panel {
+    background: rgba(0, 20, 0, 0.3);
+    border: 1px solid var(--text-dim);
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 2px;
+}
+
+.prediction-panel h3 {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: var(--text-main);
+    opacity: 0.8;
+}
+
+.prediction-data p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+/* Telegram Action Button - Flat Design */
+.action-panel {
+    margin-top: auto;
+    text-align: center;
+}
+
+.cyber-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.cyber-button:hover {
+    background: var(--text-dim);
+    color: #fff;
+    border-color: var(--text-main);
+}
+
+.telegram-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    opacity: 0.9;
+}
+
+/* Map specific styling */
+.map-wrapper {
+    flex: 2;
+    position: relative;
+    border: 1px solid var(--text-dim);
+    height: calc(100vh - 40px);
+    z-index: 10;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+/* Dark mode Leaflet tile adjustment */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+    filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(90%);
+}
+
+.leaflet-container {
+    background: #000000;
+}
+
+/* Minimal Custom Markers */
+.iss-marker-icon {
+    background: rgba(0, 255, 0, 0.1);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    animation: pulse 3s infinite;
+}
+
+.user-marker-icon {
+    background: rgba(0, 150, 255, 0.1);
+    border: 2px solid #0096FF;
+    border-radius: 50%;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 900px) {
+    body, html {
+        height: auto;
+        overflow-y: auto;
+    }
+    .dashboard-container {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 10px;
+    }
+    .terminal-overlay {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 400px;
+    }
+    .map-wrapper {
+        width: 100%;
+        min-height: 50vh;
+        height: 60vh;
+    }
+}

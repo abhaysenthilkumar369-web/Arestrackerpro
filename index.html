@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ares Tracker Pro</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Courier+New&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Matrix Rain Background -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Terminal Overlay -->
+        <div class="terminal-overlay">
+            <h1 class="glow-text">ARES TRACKER PRO v1.0</h1>
+            <div id="status-feed">
+                <p>> System Initialization...</p>
+                <p>> Connecting to ISS API...</p>
+            </div>
+            <div class="telemetry-data">
+                <div class="data-block">
+                    <span class="label">ISS LAT:</span>
+                    <span id="iss-lat" class="value glow-text">--.----</span>
+                </div>
+                <div class="data-block">
+                    <span class="label">ISS LON:</span>
+                    <span id="iss-lon" class="value glow-text">--.----</span>
+                </div>
+                <div class="data-block">
+                    <span class="label">USER DISTANCE:</span>
+                    <span id="iss-distance" class="value glow-text">---- km</span>
+                </div>
+            </div>
+            
+            <div class="prediction-panel">
+                <h3>PASS PREDICTION</h3>
+                <div class="prediction-data">
+                    <p>STATUS: <span id="pass-status" class="value glow-text">AWAITING</span></p>
+                    <p>PEAK IN: <span id="pass-countdown" class="value">--:--:--</span></p>
+                </div>
+            </div>
+
+            <!-- Telegram Connection -->
+            <div class="action-panel">
+                <a href="https://t.me/ares_tracker_pro_bot" target="_blank" class="cyber-button">
+                    <img src="telegram_logo.png" alt="Telegram Logo" class="telegram-icon">
+                    CONNECT TELEGRAM
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-wrapper">
+            <div class="map-border"></div>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- Audio Alerts -->
+    <audio id="proximity-alert" src="data:audio/wav;base64,UklGRpwBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVwBAACAgICAgICAgICAgICAgICAhISAjJCQmJignKSkpaanoaGgoKCenp6Xl5eUlJSSkpKMjIyIiIiGhoaEgoKCgoKAfn5+enp6eHh4cnJybm5uZGRkYGBgXV1dWVlZVFRUUFBQTExMSUlJRkZGREREQUFBQMDAwLy8vLi4uLCwsKioqKCgoJSUlIyMjIiIiISEhH5+fnx8fHh4eHR0dHBwcGhoaGZmZmVlZWRkZF1dXVpaWlhYWFRUVFBQUExMTEZGRkRERD8/Pzw8PDk5OTY2NjMzMzAwMC0tLSgoKCkpKSoqKisrKywsLC0tLS4uLi8vLzAwMDExMTEyMjIyMjItAA==" preload="auto"></audio>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
