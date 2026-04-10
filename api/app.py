@@ -1,112 +1,111 @@
-// ===============================
-// 🚀 ARES TRACKER PRO - FULL API
-// ===============================
-
-// Import required modules
 const express = require("express");
-const axios = require("axios");
 const cors = require("cors");
+const axios = require("axios");
 
-// Initialize app
 const app = express();
+const PORT = 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// ===============================
-// 🌍 ROUTE 1: Get ISS Live Location
-// ===============================
+/*
+========================================
+ARES TRACKER PRO API
+========================================
+Endpoints:
+1. GET /api/tracker
+   -> Basic API welcome message
+
+2. GET /api/tracker/iss
+   -> Fetch live ISS location
+
+3. GET /api/tracker/satellite
+   -> Return sample satellite data
+
+4. GET /api/tracker/health
+   -> Check whether API is running
+========================================
+*/
+
+// Home route
+app.get("/api/tracker", (req, res) => {
+    res.json({
+        success: true,
+        message: "Welcome to Ares Tracker Pro API 🚀",
+        endpoints: {
+            home: "/api/tracker",
+            iss: "/api/tracker/iss",
+            satellite: "/api/tracker/satellite",
+            health: "/api/tracker/health"
+        }
+    });
+});
+
+// Health check route
+app.get("/api/tracker/health", (req, res) => {
+    res.json({
+        success: true,
+        message: "API is running successfully",
+        time: new Date()
+    });
+});
+
+// Live ISS location route
 app.get("/api/tracker/iss", async (req, res) => {
     try {
-        const response = await axios.get(
-            "http://api.open-notify.org/iss-now.json"
-        );
+        const response = await axios.get("http://api.open-notify.org/iss-now.json");
 
         const data = response.data;
 
         res.json({
             success: true,
-            message: "ISS Live Location Fetched Successfully 🚀",
+            source: "Open Notify ISS API",
             timestamp: data.timestamp,
-            latitude: data.iss_position.latitude,
-            longitude: data.iss_position.longitude
+            iss_position: {
+                latitude: data.iss_position.latitude,
+                longitude: data.iss_position.longitude
+            },
+            message: "Live ISS location fetched successfully"
         });
-
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Failed to fetch ISS data ❌"
+            message: "Failed to fetch ISS location",
+            error: error.message
         });
     }
 });
 
-// ===============================
-// 🛰️ ROUTE 2: Satellite Info (Custom)
-// ===============================
+// Sample satellite data route
 app.get("/api/tracker/satellite", (req, res) => {
-    try {
-        const satellite = {
+    const satelliteData = {
+        success: true,
+        data: {
             name: "ARES-X",
+            type: "Research Satellite",
             altitude: "420 km",
             velocity: "7.66 km/s",
+            orbit: "Low Earth Orbit",
+            status: "Active",
             visibility: "Visible",
-            latitude: "Randomized",
-            longitude: "Randomized",
+            latitude: "12.9716 N",
+            longitude: "77.5946 E",
             timestamp: new Date()
-        };
+        }
+    };
 
-        res.json({
-            success: true,
-            message: "Satellite Data Retrieved 🛰️",
-            data: satellite
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Satellite data error ❌"
-        });
-    }
+    res.json(satelliteData);
 });
 
-// ===============================
-// 📊 ROUTE 3: Tracking History (Mock)
-// ===============================
-app.get("/api/tracker/history", (req, res) => {
-    try {
-        const history = [
-            { lat: 10.2, lon: 76.3, time: "10:00 AM" },
-            { lat: 12.5, lon: 80.1, time: "10:05 AM" },
-            { lat: 15.7, lon: 82.2, time: "10:10 AM" }
-        ];
-
-        res.json({
-            success: true,
-            message: "Tracking History 📊",
-            data: history
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error fetching history ❌"
-        });
-    }
+// 404 route
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Route not found"
+    });
 });
 
-// ===============================
-// 🧠 ROUTE 4: Health Check
-// ===============================
-app.get("/", (req, res) => {
-    res.send("🚀 Ares Tracker Pro API is running...");
-});
-
-// ===============================
-// 🔥 SERVER START
-// ===============================
-const PORT = 5000;
-
+// Start server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Ares Tracker Pro API is running on http://localhost:${PORT}`);
 });
